@@ -65,7 +65,7 @@ def Calcular(Vi,Vo,n,D,L,fs):
     Ief_ce_s=Ief_s/math.sqrt(2)
     print("\nCorrientes eficaces en IGBT del SECUNDARIO [S]          Ief_ce_s = ",Ief_ce_s)
 
-#*****************************************************************************
+#******************************************************************************
 def calcSinPrint(Vi,Vo,n,D,L,fs):
 
     import math

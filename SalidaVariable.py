@@ -6,7 +6,7 @@ def graficarCorriente(Vi,Vo_min,Vo_max,n,D,L,fs,pts):
 
 #    switch(MODO){
 #        case 1:
-#
+#       
 #            break
 #        case 2:
 #
