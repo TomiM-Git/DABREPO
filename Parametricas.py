@@ -6,7 +6,7 @@ def generarParametricas(Vi_n,Vo_n,n,D,L,fs,pts):
 
     PI=3.14159265
 
-    D_var=0.001
+    D=0.001
     D_step=0.05
 
     fs_var=15e3

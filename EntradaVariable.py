@@ -17,7 +17,7 @@ def graficarCorriente(Vo_n,Vi_min,Vi_max,n,L,fs,pts):
         y = np.zeros((pts,1),dtype=float)
         for i in (range(pts)):
             x[i] = Vi_var
-            y[i] = CalcularCtes.calcSinPrint(Vi_var,Vo_n,n,D_var,L,fs)
+            y[i] = (CalcularCtes.calcSinPrint(Vi_var,Vo_n,n,D_var,L,fs))[0]
             Vi_var = Vi_var+Vi_step
         if(j==0):
             plt.plot(x,y,'gs-',linewidth=2.0,label=r'$\phi='+str(D_var*180)+'$')
