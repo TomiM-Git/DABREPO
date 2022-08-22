@@ -6,18 +6,18 @@ def graficarInducciones(Ap_vector,Vi_max,Vo_n,n,D,L,k,J):
 
     PI=3.14159265
 
-    aux = np.zeros((2,1),dtype=float)
+    aux = np.zeros((2,1),dtype=float)   #Vector auxiliar para almacenar salidas temporalmente
 
-    plt.figure(figsize=[14,7])
+    plt.figure(figsize=[14,7])  #Define tamaño de grafica
 
-    for j in (range(5)):
+    for j in (range(5)):    #Iteraciones por numero de graficas segun Ap variable
 
-        Ap_var = Ap_vector[j]
+        Ap_var = Ap_vector[j]   #Inicializacion valor area producto segun vector
 
-        aux = CorrienteMaxInductor.parametricasFrecuencia(Vi_max,Vo_n,n,D,L)
-        x = aux[0]
-        IefL_max = aux[1]
-        y = np.zeros((101,1),dtype=float)
+        aux = CorrienteMaxInductor.parametricasFrecuencia(Vi_max,Vo_n,n,D,L) #Definicion vectores a graficar
+        x = aux[0]  #Almaceno valor de frecuencia
+        IefL_max = aux[1]   #Almaceno valor de corriente maxima en inductor
+        y = np.zeros((101,1),dtype=float)   #
 
         for i in (range(101)):
             y[i] = Vi_max*IefL_max[i]/(2*x[i]*J*k*Ap_var)
@@ -43,5 +43,5 @@ def graficarInducciones(Ap_vector,Vi_max,Vo_n,n,D,L,k,J):
     plt.ylabel('Induccion magnetica [T]')
     plt.show()
 
-    print("Vector x = \n",x)
-    print("Vector y = \n",y)
+#    print("Vector x = \n",x)
+#    print("Vector y = \n",y)
