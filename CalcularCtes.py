@@ -1,14 +1,24 @@
 def Calcular(Vi,Vo,n,D,L,fs):
     import math
-
+    import numpy as np
     PI=3.14159265
     phi=D*PI    #Desfase entre puentes en radianes
     Ts=1/(2*fs) #Semiperiodo de conmutacion
 
-    print("\n***************************************************")
-    print("\n**** CORRIENTES DEL CIRCUITO EN PEOR CONDICION ****")
-    print("\n***************************************************\n")
+    print("********************************************************")
+    print("********* CORRIENTES EN CONDICION MAS EXIGENTE *********")
+    print("********************************************************")
+
 #*****************************************************************************
+    print("Parametros:\n")
+    print("Tension de entrada                   Vi = ",round(Vi,2)," [V]")
+    print("Tension de salida                    Vo = ",round(Vo,2)," [V]")
+    print("Relacion de transformacion           n = ",round(n,2))
+    print("Desfase entre puentes en radianes    phi = ",round(phi,2),"rad")
+    print("Desfase porcentual entre puentes     D = ",round(D,2))
+    print("Inductancia equivalente total        L = ",round(L*1e6,2),"[uHy]")
+    print("Frecuencia de conmutacion            fs = ",round(fs*(1e-3),2),"[kHz]")
+
 
     print("\nVariaciones absolutas de corriente por intervalo en PRIMARIO [P] e INDUCTOR [L]:\n")
 
@@ -17,10 +27,10 @@ def Calcular(Vi,Vo,n,D,L,fs):
     dI3=(-Vi-Vo/n)*(D*Ts)/L         #Pendiente de corriente instantanea en intervalo [PI:PI+phi]
     dI4=(-Vi+Vo/n)*((1-D)*Ts)/L     #Pendiente de corriente instantanea en intervalo [PI+phi:2*PI]
     
-    print("Intervalo [0:phi]                    dI1 = ",dI1)
-    print("Intervalo [phi:PI]                   dI2 = ",dI2)
-    print("Intervalo [PI:PI+phi]                dI3 = ",dI3)
-    print("Intervalo [PI+phi:2*PI]              dI4 = ",dI4)
+    print("Intervalo [0:phi]                    dI1 = ",round(dI1,1)," [A]")
+    print("Intervalo [phi:PI]                   dI2 = ",round(dI2,1)," [A]")
+    print("Intervalo [PI:PI+phi]                dI3 = ",round(dI3,1)," [A]")
+    print("Intervalo [PI+phi:2*PI]              dI4 = ",round(dI4,1)," [A]")
 
 #*****************************************************************************
     print("\nCorrientes instantaneas en PRIMARIO [P] e INDUCTOR [L] en puntos de inflexion:\n")
@@ -30,10 +40,10 @@ def Calcular(Vi,Vo,n,D,L,fs):
     I2=I1+dI2
     I3=I2+dI3
     
-    print("Fase=0                               I0 = ",I0)
-    print("Fase=phi     (CORRIENTE PICO)        I1 = ",I1)
-    print("Fase=PI                              I2 = ",I2)
-    print("Fase=PI+phi  (CORRIENTE PICO)        I3 = ",I3)
+    print("Fase=0                               I0 = ",round(I0,1)," [A]")
+    print("Fase=phi                             I1 = ",round(I1,1)," [A]")
+    print("Fase=PI                              I2 = ",round(I2,1)," [A]")
+    print("Fase=PI+phi                          I3 = ",round(I3,1)," [A]")
 
     print("\nCorrientes instantaneas en el SECUNDARIO [S] en puntos de inflexion:\n")
 
@@ -42,18 +52,26 @@ def Calcular(Vi,Vo,n,D,L,fs):
     I2_s=I2/n
     I3_s=I3/n
 
-    print("Fase=0                               I0_s = ",I0_s)
-    print("Fase=phi                             I1_s = ",I1_s)
-    print("Fase=PI                              I2_s = ",I2_s)
-    print("Fase=PI+phi                          I3_s = ",I3_s)
+    print("Fase=0                               I0_s = ",round(I0_s,1)," [A]")
+    print("Fase=phi                             I1_s = ",round(I1_s,1)," [A]")
+    print("Fase=PI                              I2_s = ",round(I2_s,1)," [A]")
+    print("Fase=PI+phi                          I3_s = ",round(I3_s,1)," [A]")
+#*****************************************************************************
+
+    alpha = math.atan(phi/dI1)
+    theta_x = abs(I0)*math.tan(alpha)
+    print("\nAngulos para calculo de corrientes eficaces y corriente media:\n")
+    print("Angulo geometrico proyeccion ejex alpha = ",round(alpha,3)," rad")
+    print("Fase de cruce por cero theta_x = ",round(theta_x,3),"rad")
+
+    Iav_out1=((I1+I2)*(1-D)/2)
+    Iav_out2=I2*theta_x/(2*PI)
+    Iav_out3=I3*(phi-theta_x)/(2*PI)
+    Iav_out=Iav_out1+Iav_out2+Iav_out3
+    print("\nCorriente media de salida del convertidor:   Iav_out = ",round(Iav_out,2)," [A]")
 
 #*****************************************************************************
     print("\nCalculos de corrientes eficaces:\n")
-    alpha = math.atan(phi/dI1)
-    theta_x = abs(I0)*math.tan(alpha)
-    print("\t\t\t\yt\t alpha = ",alpha)
-    print("\t\t\t\yt\t theta_x = ",theta_x)
-    print("\t\t\t\yt\t phi = ",phi)
  
     Ief1=(abs(I0)/theta_x)*math.sqrt((theta_x**3)/(3*PI))
     Ief2=(abs(I1)/(phi-theta_x))*math.sqrt(((phi-theta_x)**3)/(3*PI))
@@ -67,17 +85,16 @@ def Calcular(Vi,Vo,n,D,L,fs):
     #print("Auxiliar 2:        Ief2 = ",Ief2)
     #print("Auxiliar 1:        Ief3 = ",Ief3)
     #print("Auxiliar 2:        Ief4 = ",Ief4)
-    print("\nEn PRIMARIO [P] e INDUCTOR [L]       IefL = ",IefL)
-
+    print("En PRIMARIO [P] e INDUCTOR [L]       IefL = ",round(IefL,2)," [A]")
 
     Ief_ce_p=IefL/math.sqrt(2)
-    print("\nEn IGBT del PRIMARIO [P]             Ief_ce_p = ",Ief_ce_p)
+    print("En IGBT del PRIMARIO [P]             Ief_ce_p = ",round(Ief_ce_p,2)," [A]")
 
     Ief_s=IefL/n
-    print("\nEn el SECUNDARIO[S]                  Ief_s = ",Ief_s)
+    print("En el SECUNDARIO[S]                  Ief_s = ",round(Ief_s,2)," [A]")
 
     Ief_ce_s=Ief_s/math.sqrt(2)
-    print("\nEn IGBT del SECUNDARIO[S]            Ief_ce_s = ",Ief_ce_s)
+    print("En IGBT del SECUNDARIO[S]            Ief_ce_s = ",round(Ief_ce_s,2)," [A]")
 
 #    return (IefL,Ief_s)
 
