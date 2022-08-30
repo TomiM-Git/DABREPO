@@ -17,7 +17,7 @@ def parametricasFrecuencia(Vi_max,Vo_n,n,D,Pmax,Gcc_min):
         x[i] = fs_var   #Guardo valor de frecuencia de la iteracion corriente
         L_vec[i]= ((Vi_max)**2)*Gcc_min*D*(1-D)/(2*fs_var*Pmax)
 #        print("\nVALOR L CON FRECUENCIA fs=",fs_var,"[Hz]    L = ",L)
-        y[i] = (CalcularCtes.calcSinPrint(Vi_max,Vo_n,n,D,L_vec[i],fs_var))[0] #Calculo corriente y guardo en vector
+        y[i] = 1.3*((CalcularCtes.calcSinPrint(Vi_max,Vo_n,n,D,L_vec[i],fs_var))[0]) #Calculo corriente y guardo en vector
         fs_var=fs_var+fs_step   #Actualizo valor de frecuencia para proxima iteracion
 
 #    plt.figure(figsize=[14,7])
