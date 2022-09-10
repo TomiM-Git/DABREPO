@@ -64,9 +64,9 @@ def Calcular(Vi,Vo,n,D,L,fs):
     print("Angulo geometrico proyeccion ejex alpha = ",round(alpha,3)," rad")
     print("Fase de cruce por cero theta_x = ",round(theta_x,3),"rad")
 
-    Iav_out1=((I1+I2)*(1-D)/2)
-    Iav_out2=I2*theta_x/(2*PI)
-    Iav_out3=I3*(phi-theta_x)/(2*PI)
+    Iav_out1=((I1_s+I2_s)*(1-D)/2)
+    Iav_out2=I2_s*theta_x/(2*PI)
+    Iav_out3=I3_s*(phi-theta_x)/(2*PI)
     Iav_out=Iav_out1+Iav_out2+Iav_out3
     print("\nCorriente media de salida del convertidor:   Iav_out = ",round(Iav_out,2)," [A]")
 
