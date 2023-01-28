@@ -34,6 +34,11 @@ const static char *TAG = "CONSOL MSG:";
 #define SIMU_GPIO_SYNC_SOURCE_GPIO GPIO_NUM_21 // GPIO21 para fuente de sincronismo de desfase entre puentes
 #define SIMU_GPIO_SYNC_SIMULATE_GPIO GPIO_NUM_19 // GPIO19 para recepcion de señal de sincronismo
 
+#define FREC 1000   // Frecuencia de señal PWM proveniente de ESP32.
+#define DESFASE 300    // Desfase entre 0 y 1000 (Desde 0: sin desfase. Hasta 1000: Un periodo completo)
+#define DTIME 4000  // Tiempo muerto entre disparos en una misma pierna de puente H. Ecuacion abajo.
+// td = DTIME*100ns (Ejemplo: si DTIME=4000 => td=DTIME*100ns=4000*100ns=400us)
+
 esp_err_t conf_PWM(void);
 esp_err_t sync_PWM(void);
 esp_err_t gpio_bind_PWM(void);
@@ -142,9 +147,9 @@ esp_err_t conf_ADC(void){
 esp_err_t conf_PWM(void){   
     ESP_LOGI(TAG, "INICIO CONFIGURACION...");
     vTaskDelay(pdMS_TO_TICKS(500));
-    // Inicializo estructura con 40kHz, 50% de ciclo util en ambos canales, con contador ascendente.
+    // Inicializo estructura con frecuencia parametrizada, 50% de ciclo util en ambos canales, con contador ascendente.
     mcpwm_config_t pwm_config = {
-        .frequency = 1000,
+        .frequency = FREC,    // PARAMETRO FREC PARAMETRIZADO EN SECTOR #DEFINE
         .cmpr_a = 50,
         .cmpr_b = 50,
         .counter_mode = MCPWM_UP_COUNTER,
@@ -152,10 +157,11 @@ esp_err_t conf_PWM(void){
     };
     ESP_ERROR_CHECK(mcpwm_init(TARGET_MCPWM_UNIT, MCPWM_TIMER_0, &pwm_config));
     ESP_ERROR_CHECK(mcpwm_init(TARGET_MCPWM_UNIT, MCPWM_TIMER_1, &pwm_config));
-    vTaskDelay(pdMS_TO_TICKS(500));
-    ESP_ERROR_CHECK(mcpwm_deadtime_enable(TARGET_MCPWM_UNIT,MCPWM_TIMER_0,MCPWM_ACTIVE_HIGH_COMPLIMENT_MODE,2000,2000));
-    ESP_ERROR_CHECK(mcpwm_deadtime_enable(TARGET_MCPWM_UNIT,MCPWM_TIMER_1,MCPWM_ACTIVE_HIGH_COMPLIMENT_MODE,2000,2000));
-    vTaskDelay(pdMS_TO_TICKS(500));
+    vTaskDelay(pdMS_TO_TICKS(1000));
+    // PARAMETRO DTIME PARAMETRIZADO EN SECTOR #DEFINE
+    ESP_ERROR_CHECK(mcpwm_deadtime_enable(TARGET_MCPWM_UNIT,MCPWM_TIMER_0,MCPWM_ACTIVE_HIGH_COMPLIMENT_MODE,DTIME,DTIME));
+    ESP_ERROR_CHECK(mcpwm_deadtime_enable(TARGET_MCPWM_UNIT,MCPWM_TIMER_1,MCPWM_ACTIVE_HIGH_COMPLIMENT_MODE,DTIME,DTIME));
+    vTaskDelay(pdMS_TO_TICKS(1000));
     return ESP_OK;
 }
 esp_err_t sync_PWM(void){
@@ -167,7 +173,7 @@ esp_err_t sync_PWM(void){
     };
     mcpwm_sync_config_t sync_PUENTE_SALIDA = {
         .sync_sig = MCPWM_SELECT_GPIO_SYNC0,
-        .timer_val = 800,
+        .timer_val = DESFASE,                              // PARAMETRO DESFASE PARAMETRIZADO EN SECTOR #DEFINE
         .count_direction = MCPWM_TIMER_DIRECTION_UP,
     };
     ESP_ERROR_CHECK(mcpwm_sync_configure(TARGET_MCPWM_UNIT, MCPWM_TIMER_0, &sync_PUENTE_ENTRADA));
