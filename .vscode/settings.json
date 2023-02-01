@@ -1,3 +1,0 @@
-{
-    "cmake.sourceDirectory": "${workspaceFolder}/Control_ESP32/mcpwm_sync_example"
-}

@@ -20,42 +20,42 @@ def Calcular(Vi,Vo,n,D,L,fs):
     print("Frecuencia de conmutacion            fs = ",round(fs*(1e-3),2),"[kHz]")
 
 
-    print("\nVariaciones absolutas de corriente por intervalo en PRIMARIO [P] e INDUCTOR [L]:\n")
+    print("\nVariaciones absolutas de corriente por intervalo en PRIMARIO e INDUCTOR:\n")
 
     dI1=(Vi+Vo/n)*(D*Ts)/L          #Pendiente de corriente instantanea en intervalo [0:phi]
     dI2=(Vi-Vo/n)*((1-D)*Ts)/L      #Pendiente de corriente instantanea en intervalo [phi:PI]
     dI3=(-Vi-Vo/n)*(D*Ts)/L         #Pendiente de corriente instantanea en intervalo [PI:PI+phi]
     dI4=(-Vi+Vo/n)*((1-D)*Ts)/L     #Pendiente de corriente instantanea en intervalo [PI+phi:2*PI]
     
-    print("Intervalo [0:phi]                    dI1 = ",round(dI1,1)," [A]")
-    print("Intervalo [phi:PI]                   dI2 = ",round(dI2,1)," [A]")
-    print("Intervalo [PI:PI+phi]                dI3 = ",round(dI3,1)," [A]")
-    print("Intervalo [PI+phi:2*PI]              dI4 = ",round(dI4,1)," [A]")
+    print("Intervalo [0:phi]               delta_I1 = ",round(dI1,1)," [A]")
+    print("Intervalo [phi:PI]              delta_I2 = ",round(dI2,1)," [A]")
+    print("Intervalo [PI:PI+phi]           delta_I3 = ",round(dI3,1)," [A]")
+    print("Intervalo [PI+phi:2*PI]         delta_I4 = ",round(dI4,1)," [A]")
 
 #*****************************************************************************
-    print("\nCorrientes instantaneas en PRIMARIO [P] e INDUCTOR [L] en puntos de inflexion:\n")
+    print("\nCorrientes instantaneas en PRIMARIO e INDUCTOR en puntos de inflexion:\n")
 
     I0=-(dI1+dI2)/2
     I1=I0+dI1
     I2=I1+dI2
     I3=I2+dI3
     
-    print("Fase=0                               I0 = ",round(I0,1)," [A]")
-    print("Fase=phi                             I1 = ",round(I1,1)," [A]")
-    print("Fase=PI                              I2 = ",round(I2,1)," [A]")
-    print("Fase=PI+phi                          I3 = ",round(I3,1)," [A]")
+    print("Fase=0                               IA = ",round(I0,1)," [A]")
+    print("Fase=phi                             IB = ",round(I1,1)," [A]")
+    print("Fase=PI                              IC = ",round(I2,1)," [A]")
+    print("Fase=PI+phi                          ID = ",round(I3,1)," [A]")
 
-    print("\nCorrientes instantaneas en el SECUNDARIO [S] en puntos de inflexion:\n")
+    print("\nCorrientes instantaneas en el SECUNDARIO en puntos de inflexion:\n")
 
     I0_s=I0/n
     I1_s=I1/n
     I2_s=I2/n
     I3_s=I3/n
 
-    print("Fase=0                               I0_s = ",round(I0_s,1)," [A]")
-    print("Fase=phi                             I1_s = ",round(I1_s,1)," [A]")
-    print("Fase=PI                              I2_s = ",round(I2_s,1)," [A]")
-    print("Fase=PI+phi                          I3_s = ",round(I3_s,1)," [A]")
+    print("Fase=0                               IA_s = ",round(I0_s,1)," [A]")
+    print("Fase=phi                             IB_s = ",round(I1_s,1)," [A]")
+    print("Fase=PI                              IC_s = ",round(I2_s,1)," [A]")
+    print("Fase=PI+phi                          ID_s = ",round(I3_s,1)," [A]")
 #*****************************************************************************
 
     alpha = math.atan(phi/dI1)
@@ -131,6 +131,7 @@ def calcSinPrint(Vi,Vo,n,D,L,fs): #Funcion que retorna los valores, sin imprimir
 #    print("I1 =",I1)
 #    print("I2 =",I2)
 #    print("I3 =",I3)
+
 
     #Corriente eficaz triangular entre [0:theta_x] y [PI:PI+theta_x]
     Ief1=(abs(I0)/theta_x)*math.sqrt((theta_x**3)/(3*PI))  

@@ -26,7 +26,7 @@
 const static char *TAG = "CONSOL MSG:";
 
 // Definiciones PWM
-#define TARGET_MCPWM_UNIT MCPWM_UNIT_0
+#define TARGET_MCPWM_UNIT MCPWM_UNIT_0  // Periferico MCPWM a utilizado
 #define MCPWM0A_OUTPUT_GPIO GPIO_NUM_13 // GPIO13 para control Gate 1 y Gate 4
 #define MCPWM0B_OUTPUT_GPIO GPIO_NUM_12 // GPIO12 para control Gate 2 y Gate 3
 #define MCPWM1A_OUTPUT_GPIO GPIO_NUM_14 // GPIO14 para control Gate 5 y Gate 8
