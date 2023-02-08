@@ -18,7 +18,7 @@ def graficarCorriente(Vi_n,Vo_min,Vo_max,n,L,fs,pts):
             x[i] = Vo_var       #Se guarda el valor vector x
             cte_graf=(CalcularCtes.calcSinPrint(Vi_n,Vo_var,n,D_var,L,fs))[0]
             y[i] = cte_graf #Se guarda valor vector
-            print(cte_graf,Vo_var,D_var)
+#            print(cte_graf,Vo_var,D_var)
             Vo_var = Vo_var+Vo_step #Nuevo paso para proxima iteracion
         if(j==0): #Selecciona el grafico segun el desfase porcentual a graficar
             plt.plot(x,y,'gs-',linewidth=2.0,label=r'$\phi='+str(D_var*180)+'$')
