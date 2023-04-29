@@ -1,2 +1,2 @@
-idf_component_register(SRCS "mcpwm_sync_example.c"
+idf_component_register(SRCS "DAB_CONTROL.c"
                     INCLUDE_DIRS ".")

@@ -22,9 +22,6 @@ def generarParametricas(Vi,n,L,Rl1,Rl2):
     # Vector para trazado de recta horizontal Vi para referencia visual elevador/reductor.
     Vi_ref=[Vi,Vi]
 
-#Á   É   Í   Ó   Ú
-#á   é   í   ó   ú
-
     fig= plt.figure(figsize=[14,10])
     for x in range(2):  # Bucle para la realizacion de 2 gráficas.
         D_var=0.1   #Inicializa desfase proporcional entre puentes.
