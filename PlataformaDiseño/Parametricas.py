@@ -22,23 +22,23 @@ def generarParametricas(Vi,n,L,Rl1,Rl2):
     # Vector para trazado de recta horizontal Vi para referencia visual elevador/reductor.
     Vi_ref=[Vi,Vi]
 
-    fig= plt.figure(figsize=[14,10])
+    fig= plt.figure(figsize=[17,10])
     for x in range(2):  # Bucle para la realizacion de 2 gráficas.
         D_var=0.1   #Inicializa desfase proporcional entre puentes.
         if(x==0):
             ax1=fig.add_subplot(2,2,(1,3))  #Dimensión de subploteo 1.
             ax=ax1      #Sobreescribo variable de subploteo.
             Rl=Rl1      #Sobreescribo variable de resistencia de carga.
-            major_ticks_Vo=np.arange(0,80,5)    #Graficar de 0V a 80V cada 5V.
+            major_ticks_Vo=np.arange(0,112,4)    #Graficar de 0V a 80V cada 5V.
             #Agrego gráfico de recta horizontal con tensión de entrada para referencia.
-            plt.plot(minSQ_frecs,Vi_ref,'ko-',linewidth=2.0,label=r'$ Entrada: Vi = '+str(Vi)+' [V]$')
+            plt.plot(minSQ_frecs,Vi_ref,'ko-',linewidth=2.0,label="Entrada: Vi = "+str(Vi)+"[V]")
         else:
             ax2=fig.add_subplot(2,2,(2,4))  #Dimensión de subploteo 2.
             ax=ax2      #Sobreescribo variable de subploteo.
             Rl=Rl2      #Sobreescribo variable de resistencia de carga.
-            major_ticks_Vo=np.arange(0,36,2)    #Graficar de 0V a 36V cada 2V.
+            major_ticks_Vo=np.arange(0,56,2)    #Graficar de 0V a 36V cada 2V.
             #Agrego gráfico de recta horizontal con tensión de entrada para referencia.
-            plt.plot(minSQ_frecs,Vi_ref,'ko-',linewidth=2.0,label=r'$ Entrada: Vi = '+str(Vi)+' [V]$')
+            plt.plot(minSQ_frecs,Vi_ref,'ko-',linewidth=2.0,label="Entrada: Vi = "+str(Vi)+"[V]")
         for j in (range(3)):
             x = np.zeros((9,1),dtype=float) #Vector para frecuencias.
             y = np.zeros((9,1),dtype=float) #Vector para tensiones de salida.
@@ -47,36 +47,36 @@ def generarParametricas(Vi,n,L,Rl1,Rl2):
                 y[i] = CalcularVo.calcSinPrint(Vi,n,D_var,L,fs_vec[i],Rl) #Cálculo auxiliar tensión de salida.
             if(j==0):   #Cada j corresponde a un incremento en la variable D_var.
                 #En cada bloque se grafica primero el caso obtenido de las ecuaciones teóricas (Ideal).
-                plt.plot(x,y,'b^-',linewidth=2.0,label=r'$Ideal: D = '+str(D_var)+'$')
+                plt.plot(x,y,'b^-',linewidth=2.0,label="Curva teórica: \u03A6= "+str(D_var*180)+"°")
                 if(Rl==Rl1):#Se ejecuta para el gráfico que corresponda segun que resistencia sobreescribio a Rl.
                     #Luego se grafican los datos experimentales (Reales), segun el vector que corresponda.
-                    plt.plot(x,Vo_80ohm_50,'bo-',linewidth=2.0,label=r'$Real: D = '+str(D_var)+'$')
+                    plt.plot(x,Vo_80ohm_50,'bo-',linewidth=2.0,label="Datos reales: \u03A6= "+str(D_var*180)+"°")
                     #Finalmente se grafica la recta de tendencia de los datos experimentales.
-                    plt.plot(minSQ_frecs,minSQ_80ohm_50,'bs-',linewidth=2.0,label=r'$Tendencia: D = '+str(D_var)+'$')
+                    plt.plot(minSQ_frecs,minSQ_80ohm_50,'bs-',linewidth=2.0,label="Tendencia: \u03A6= "+str(D_var*180)+"°")
                 elif(Rl==Rl2):
-                    plt.plot(x,Vo_40ohm_50,'bo-',linewidth=2.0,label=r'$Ideal: D = '+str(D_var)+'$')
-                    plt.plot(minSQ_frecs,minSQ_40ohm_50,'bs-',linewidth=2.0,label=r'$Tendencia: D = '+str(D_var)+'$')
+                    plt.plot(x,Vo_40ohm_50,'bo-',linewidth=2.0,label="Datos reales: \u03A6= "+str(D_var*180)+"°")
+                    plt.plot(minSQ_frecs,minSQ_40ohm_50,'bs-',linewidth=2.0,label="Tendencia: \u03A6= "+str(D_var*180)+"°")
             elif(j==1):     
-                plt.plot(x,y,'g^-',linewidth=2.0,label=r'$Ideal: D = '+str(D_var)+'$')
+                plt.plot(x,y,'g^-',linewidth=2.0,label="Curva teórica: \u03A6= "+str(D_var*180)+"°")
                 if(Rl==Rl1):
-                    plt.plot(x,Vo_80ohm_100,'go-',linewidth=2.0,label=r'$Real: D = '+str(D_var)+'$')
-                    plt.plot(minSQ_frecs,minSQ_80ohm_100,'gs-',linewidth=2.0,label=r'$Tendencia: D = '+str(D_var)+'$')
+                    plt.plot(x,Vo_80ohm_100,'go-',linewidth=2.0,label="Datos reales: \u03A6= "+str(D_var*180)+"°")
+                    plt.plot(minSQ_frecs,minSQ_80ohm_100,'gs-',linewidth=2.0,label="Tendencia: \u03A6= "+str(D_var*180)+"°")
                 elif(Rl==Rl2):
-                    plt.plot(x,Vo_40ohm_100,'go-',linewidth=2.0,label=r'$Real: D = '+str(D_var)+'$')
-                    plt.plot(minSQ_frecs,minSQ_40ohm_100,'gs-',linewidth=2.0,label=r'$Tendencia: D = '+str(D_var)+'$')
+                    plt.plot(x,Vo_40ohm_100,'go-',linewidth=2.0,label="Datos reales: \u03A6= "+str(D_var*180)+"°")
+                    plt.plot(minSQ_frecs,minSQ_40ohm_100,'gs-',linewidth=2.0,label="Tendencia: \u03A6= "+str(D_var*180)+"°")
             elif(j==2):
-                plt.plot(x,y,'r^-',linewidth=2.0,label=r'$Ideal: D = '+str(D_var)+'$')
+                plt.plot(x,y,'r^-',linewidth=2.0,label="Curva teórica: \u03A6= "+str(D_var*180)+"°")
                 if(Rl==Rl1):
-                    plt.plot(x,Vo_80ohm_200,'ro-',linewidth=2.0,label=r'$Real: D = '+str(D_var)+'$')
-                    plt.plot(minSQ_frecs,minSQ_80ohm_200,'rs-',linewidth=2.0,label=r'$\ Tendencia: D = '+str(D_var)+'$')
+                    plt.plot(x,Vo_80ohm_200,'ro-',linewidth=2.0,label="Datos reales: \u03A6= "+str(D_var*180)+"°")
+                    plt.plot(minSQ_frecs,minSQ_80ohm_200,'rs-',linewidth=2.0,label="Tendencia: \u03A6= "+str(D_var*180)+"°")
                 elif(Rl==Rl2):
-                    plt.plot(x,Vo_40ohm_200,'ro-',linewidth=2.0,label=r'$Real: D = '+str(D_var)+'$')
-                    plt.plot(minSQ_frecs,minSQ_40ohm_200,'rs-',linewidth=2.0,label=r'$\ Tendencia: D = '+str(D_var)+'$')
+                    plt.plot(x,Vo_40ohm_200,'ro-',linewidth=2.0,label="Datos reales: \u03A6= "+str(D_var*180)+"°")
+                    plt.plot(minSQ_frecs,minSQ_40ohm_200,'rs-',linewidth=2.0,label="Tendencia: \u03A6= "+str(D_var*180)+"°")
             D_var = D_var*2     #Incrementeo el valor de D_var para siguiente paramétrica.
-            plt.title("Ro = "+str(Rl)+"[ohm]    L = "+str(L*1e6)+" [uHy]")  #Grafico valores de paramétros.
+            plt.title("Ro = "+str(Rl)+"[\u03A9]           Leq = "+str(L*1e6)+" [uHy]")  #Grafico valores de paramétros.
             plt.legend()
             plt.grid(True)
-            major_ticks_fs=np.arange(16,46,2)   #Graficar de 16kHz a 46kHz cada 2kHz.
+            major_ticks_fs=np.arange(16,46,1)   #Graficar de 16kHz a 46kHz cada 1kHz.
             ax.set_xticks(major_ticks_fs)       #Configuro escala de gráfico en x.
             ax.set_yticks(major_ticks_Vo)       #Configuro escala de gráfico en y.
             plt.xlabel('Frecuencia [kHz]')

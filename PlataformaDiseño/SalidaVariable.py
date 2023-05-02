@@ -1,9 +1,16 @@
-def graficarCorriente(Vi,Vo_inf,Vo_sup,n,L,fs,Id_max,Vo_max,MODO):
+def graficarCorriente(Vi,n,L,fs,Id_max,Vo_max,MODO):
     import numpy as np
     import CalcularCtes
     import matplotlib.pyplot as plt
-    pts = int(round(((Vo_sup-Vo_inf)*0.5),0)+1)  #Número de puntos a graficar
 
+    if(MODO==1):
+        Vo_inf = 100    #Limite inferior de tensión a graficar. (Vo_inf>0.8*Vi)
+        Vo_sup = 200    #Limite superior de tensión a graficar. (Vo_sup<2*Vi)
+    elif(MODO==2):
+        Vo_inf = 89     #Limite inferior de tensión a graficar. (Vo_inf>0.8*Vi)
+        Vo_sup = 219    #Limite superior de tensión a graficar. (Vo_sup<2*Vi)
+
+    pts = int(round(((Vo_sup-Vo_inf)*0.5),0)+1)  #Número de puntos a graficar
     Vo_var=Vo_inf                       #Tensión de salida inicial.
     Vo_step=(Vo_sup-Vo_inf)/(pts-1)     #Paso de tensión de salida.
     Id_max_vec=[Id_max,Id_max]          #Vector para trazar línea horizontal.
@@ -55,7 +62,7 @@ def graficarCorriente(Vi,Vo_inf,Vo_sup,n,L,fs,Id_max,Vo_max,MODO):
             plt.plot(x,y2,'ro-',linewidth=2.0,label=r'$Io(\phi='+str(round(D_var*180,0))+')$')
         Vo_var=Vo_inf       #Se reinicializa el valor de la tensión mínima a graficar.
         D_var=D_var+D_step  #Se incrementa el desfase proporcional para próxima gráfica.
-    plt.title("fs = "+str(fs*0.001)+" [kHz]    L = "+str(L*1e6)+" [uHy]    n = "+str(n))
+    plt.title("fs = "+str(fs*0.001)+" [kHz]    Leq = "+str(L*1e6)+" [uHy]    n = "+str(n))
     plt.legend()
     plt.grid(True)
 
@@ -64,13 +71,13 @@ def graficarCorriente(Vi,Vo_inf,Vo_sup,n,L,fs,Id_max,Vo_max,MODO):
         plt.axvline(x=138)#Recta vertical Gef=1.2
         plt.axvline(x=158)#Recta vertical Gef=1.4
         plt.axvline(x=182)#Recta vertical Gef=1.6
-        major_ticks_Id_Io = np.arange(2,10,1) #Graficar de 2A a 10A cada 1A.
+        major_ticks_Id_Io = np.arange(0,4.25,0.25) #Graficar de 0A a 6A cada 0.5A.
         major_ticks_Vo = np.arange(100,204,4) #Graficar de 100V a 204V cada 4V.
         ax.set_xticks(major_ticks_Vo)
         ax.set_yticks(major_ticks_Id_Io)
     elif(MODO==2):
         plt.axvline(x=Vo_max)
-        major_ticks_Id_Io = np.arange(6,17,1) #Graficar de 6A a 17A cada 1A.
+        major_ticks_Id_Io = np.arange(6,18,0.5) #Graficar de 6A a 17A cada 1A.
         major_ticks_Vo = np.arange(84,224,4)  #Graficar de 84V a 224V cada 4V.
         ax.set_xticks(major_ticks_Vo)
         ax.set_yticks(major_ticks_Id_Io)
